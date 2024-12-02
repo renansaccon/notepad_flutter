@@ -44,7 +44,7 @@ class newHome extends StatelessWidget {
             Consumer<NewPhraseController>(
                 builder: (context, value, child){
                   return
-                    Text('${value.phrase.toString()} Autor: ${value.author.toString()}');
+                    Text('Frase: ${value.phrase.toString()} \n Autor: ${value.author.toString()}');
                 }
             )
           ],

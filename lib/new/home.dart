@@ -38,7 +38,9 @@ class newHome extends StatelessWidget {
                       style: TextStyle(
                           fontSize: 20,
                           color: newTheme.primaryColorDark,
-                          letterSpacing: (0.3)),),
+                          letterSpacing: (0.3),
+                      ),
+                    ),
                   );
                 }
             ),

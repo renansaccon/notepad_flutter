@@ -10,43 +10,56 @@ import '../themes/theme.dart';
 
 class newHome extends StatelessWidget {
   newHome({super.key});
-
-  final TextEditingController _inputController = TextEditingController();
+  bool isButtonEnabled = true;
 
   @override
   Widget build(BuildContext context) {
-    final dio = Dio();
-    final client = RestClient(dio);
-    var logger = Logger();
-    
-    
+
     return Scaffold(
       appBar: AppBar(title: Text("Gerar nova frase"),titleTextStyle: TextStyle(color: newTheme.primaryColorDark, fontSize: 20),
-        centerTitle: true,
+        centerTitle: false,
         backgroundColor: newTheme.primaryColor,),
-      body: Center(
+      backgroundColor: newTheme.primaryColorDark,
+      body:
+      Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            TextFormField(
-              controller: _inputController,
-              decoration: const InputDecoration(
-                labelText: "Clique em GERAR UMA NOVA FRASE"
-              ),
-            ),
-            ElevatedButton(
-              onPressed:(){
-                Provider.of<NewPhraseController>(context, listen: false).generatePhrase();
-              },
-              child: Text("Gerar nova frase", style: TextStyle(color: newTheme.primaryColorDark)),
-              style: ElevatedButton.styleFrom(backgroundColor: newTheme.secondaryHeaderColor),//navegar para a rota
-            ),
             Consumer<NewPhraseController>(
                 builder: (context, value, child){
                   return
-                    Text('Frase: ${value.phrase.toString()} \n Autor: ${value.author.toString()}');
+                  Container(
+                    padding: EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12),
+                      color: newTheme.primaryColor
+                    ),
+                    child: Text('Frase: ${value.phrase.toString()} \n \n Autor: ${value.author.toString()}',
+                      style: TextStyle(
+                          fontSize: 20,
+                          color: newTheme.primaryColorDark,
+                          letterSpacing: (0.3)),),
+                  );
                 }
-            )
+            ),
+            SizedBox(height: 20,),
+            ElevatedButton(
+              onPressed: isButtonEnabled ? (){
+                Provider.of<NewPhraseController>(context, listen: false).generatePhrase();
+                isButtonEnabled = false;
+              }:null,
+              child: Text("Gerar nova frase", style: TextStyle(color: newTheme.primaryColorDark)),
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: newTheme.secondaryHeaderColor,
+                  padding: EdgeInsets.symmetric(vertical: 20, horizontal: 40),),//navegar para a rota
+            ),
+            SizedBox(height: 20,),
+            OutlinedButton(
+                onPressed: (){},
+                child: Text("Salvar frase"),style: OutlinedButton.styleFrom(
+                    foregroundColor: newTheme.primaryColor,
+                    side: BorderSide(color: newTheme.primaryColor),
+                    padding: EdgeInsets.symmetric(vertical: 20, horizontal: 40)),)
           ],
         ),
       ),

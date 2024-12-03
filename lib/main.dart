@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:myapp/config/routes.dart';
 import 'package:myapp/new/home.dart';
 import 'package:myapp/new/new_controller.dart';
 import 'package:myapp/themes/theme.dart';
 import 'package:provider/provider.dart';
+import 'dart:async';
+import 'package:flutter/services.dart';
 
 
 void main() {
@@ -12,6 +15,7 @@ void main() {
 
 class Notepad extends StatelessWidget {
   const Notepad({super.key});
+
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +40,7 @@ class Notepad extends StatelessWidget {
       appBar: AppBar(title: Text("Gerador de Frases"),titleTextStyle: TextStyle(color: newTheme.primaryColorDark, fontSize: 20),
         centerTitle: true,
         backgroundColor: newTheme.primaryColor,),
+      backgroundColor: newTheme.primaryColorDark,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -53,10 +58,35 @@ class Notepad extends StatelessWidget {
                 Navigator.pushNamed(context, newRoute);
               },
               child: Text("Nova Frase", style: TextStyle(color: newTheme.primaryColorDark),),
-              style: ElevatedButton.styleFrom(backgroundColor: newTheme.secondaryHeaderColor),)
+              style: ElevatedButton.styleFrom(backgroundColor: newTheme.secondaryHeaderColor),),
+            SizedBox(height: 40),
+            Container(
+              padding: EdgeInsets.all(8),
+              child: FutureBuilder<String>(
+                future: _getDeviceName(),
+                builder: (context, snapshot){
+                if (snapshot.connectionState == ConnectionState.waiting){
+                  return CircularProgressIndicator();
+                } else if (snapshot.hasError){
+                  return Text('Erro: ${snapshot.error}');
+                } else {
+                  return Text('Nome do dispositivo: ${snapshot.data}');
+                }
+            },
+            ),)
           ],
         ),
       ),
     );
+  }
+  static const platform = MethodChannel('com.example.device/nameDevice');
+
+  Future<String> _getDeviceName() async {
+    try {
+      final String deviceName = await platform.invokeMethod('getDeviceName');
+      return deviceName;
+    } on PlatformException catch (e) {
+      return "Erro ao obter o nome do dispositivo: ${e.message}";
+    }
   }
 }

@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:myapp/config/routes.dart';
 import 'package:myapp/new/home.dart';
 import 'package:myapp/new/new_controller.dart';
+import 'package:myapp/saved/home.dart';
 import 'package:myapp/themes/theme.dart';
 import 'package:provider/provider.dart';
 import 'dart:async';
@@ -22,6 +23,7 @@ class Notepad extends StatelessWidget {
       initialRoute: homeRoute,
       routes: {
         homeRoute: (context) => HomePage(),
+        savedRoute: (context) => savedPhrases(),
         newRoute: (context) => ChangeNotifierProvider(
             create: (context) => NewPhraseController(),
             child: newHome(),

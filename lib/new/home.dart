@@ -63,11 +63,6 @@ class newHome extends StatelessWidget {
             SizedBox(height: 20,),
             OutlinedButton(
                 onPressed: (){
-                  database
-                      .into(database.phraseData)
-                      .insert(PhraseDataCompanion.insert(
-                        phrase: phrase,
-                        author: author));
                   Fluttertoast.showToast(msg: "Frase salva",
                   toastLength: Toast.LENGTH_SHORT,
                   gravity: ToastGravity.BOTTOM,
@@ -76,7 +71,11 @@ class newHome extends StatelessWidget {
                   textColor: newTheme.primaryColorDark,
                   fontSize: 16.0,
                   );
-                  Navigator.pop(context);
+                  database
+                      .into(database.phraseData)
+                      .insert(PhraseDataCompanion.insert(
+                      phrase: phrase,
+                      author: author));
                 },
                 child: Text("Salvar frase"),style: OutlinedButton.styleFrom(
                     foregroundColor: newTheme.primaryColor,

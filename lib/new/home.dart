@@ -17,7 +17,11 @@ class newHome extends StatelessWidget {
   Widget build(BuildContext context) {
     final database = AppDatabase();
     var author = "";
+    var authorComplete = "";
     var phrase= "";
+    var phraseComplete = "";
+    var controller = false;
+    var colorContainer = newTheme.primaryColorDark;
 
     return Scaffold(
       appBar: AppBar(title: Text("Gerar nova frase"),titleTextStyle: TextStyle(color: newTheme.primaryColorDark, fontSize: 20),
@@ -34,14 +38,20 @@ class newHome extends StatelessWidget {
                 builder: (context, value, child){
                   phrase = value.phrase.toString();
                   author = value.author.toString();
+                  if (controller){
+                    phraseComplete = 'Frase: $phrase';
+                    authorComplete = 'Autor: $author';
+                    colorContainer = newTheme.primaryColor;
+                  }
+                  controller = true;
                   return
                   Container(
                     padding: EdgeInsets.all(8),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(12),
-                      color: newTheme.primaryColor
+                      color: colorContainer,
                     ),
-                    child: Text('Frase: $phrase \n \n Autor: $author',
+                    child: Text('$phraseComplete \n \n $authorComplete',
                       style: TextStyle(
                           fontSize: 20,
                           color: newTheme.primaryColorDark,
@@ -55,9 +65,12 @@ class newHome extends StatelessWidget {
             ElevatedButton(
               key: const Key('gerar_frase_key'),
               onPressed: (){
-                Provider.of<NewPhraseController>(context, listen: false).generatePhrase();
+                Provider.of<NewPhraseController>(
+                    context,
+                    listen: false).generatePhrase();
               },
-              child: Text("Gerar nova frase", style: TextStyle(color: newTheme.primaryColorDark)),
+              child: Text("Gerar nova frase",
+                  style: TextStyle(color: newTheme.primaryColorDark)),
               style: ElevatedButton.styleFrom(
                   backgroundColor: newTheme.secondaryHeaderColor,
                   padding: EdgeInsets.symmetric(vertical: 20, horizontal: 40),),//navegar para a rota

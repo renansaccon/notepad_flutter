@@ -30,6 +30,7 @@ class newHome extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Consumer<NewPhraseController>(
+              key: const Key('Consumer_key'),
                 builder: (context, value, child){
                   phrase = value.phrase.toString();
                   author = value.author.toString();
@@ -52,6 +53,7 @@ class newHome extends StatelessWidget {
             ),
             SizedBox(height: 20,),
             ElevatedButton(
+              key: const Key('gerar_frase_key'),
               onPressed: (){
                 Provider.of<NewPhraseController>(context, listen: false).generatePhrase();
               },
@@ -62,15 +64,12 @@ class newHome extends StatelessWidget {
             ),
             SizedBox(height: 20,),
             OutlinedButton(
+              key: const Key('salvar_botao_key'),
                 onPressed: (){
-                  Fluttertoast.showToast(msg: "Frase salva",
-                  toastLength: Toast.LENGTH_SHORT,
-                  gravity: ToastGravity.BOTTOM,
-                  timeInSecForIosWeb: 1,
-                  backgroundColor: Color.fromRGBO(3, 169, 244, 50),
-                  textColor: newTheme.primaryColorDark,
-                  fontSize: 16.0,
-                  );
+                  const snackBar = SnackBar(
+                    key: const Key('SnackBar_key') ,
+                    content: Text('Frase salva com sucesso'),);
+                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
                   database
                       .into(database.phraseData)
                       .insert(PhraseDataCompanion.insert(

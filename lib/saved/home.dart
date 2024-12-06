@@ -37,7 +37,9 @@ class _savedPhrasesState extends State<savedPhrases> {
       appBar: AppBar(
         title: const Text('Frases Salvas'),
       ),
-      body: ListView.separated(
+      body:
+      ListView.separated(
+        key: const Key('lista'),
         itemBuilder: (context, index) => _listPhrases[index],
         separatorBuilder: (context, index) => const Divider(height: 1),
         itemCount: _listPhrases.length,
